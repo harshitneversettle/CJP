@@ -1,0 +1,14 @@
+# Place your game assets here
+
+## Required GIF files:
+- player.gif (Your main character - displayed as rounded circle)
+- powerup.gif (Power-up character - displayed as rounded circle)
+
+## Optional Audio files:
+- background-music.mp3 (Plays during gameplay, loops continuously)
+- game-over.mp3 (Plays when character dies)
+- powerup.mp3 (Plays when collecting powerup stars for extra points)
+
+The game will work without audio files, but they enhance the experience!
+
+Trees 🌳 and cockroaches 🪳 use emojis (no GIF needed).
