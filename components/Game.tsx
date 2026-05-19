@@ -11,6 +11,7 @@ interface Position {
 interface GameObject {
   id: number;
   position: Position;
+  spawnTime?: number; // For powerup expiration
 }
 
 // Game Configuration - Only player and powerup use GIFs
@@ -293,7 +294,7 @@ export default function Game() {
         });
       }
 
-      // Move cockroaches towards player
+      // Move cockroaches towards player with randomness to prevent clustering
       setCockroaches(prev => {
         return prev.map(cockroach => {
           const dx = playerPos.x - cockroach.position.x;
@@ -301,11 +302,20 @@ export default function Game() {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance > 0) {
+            // Add random offset to prevent perfect stacking
+            const randomAngle = (Math.random() - 0.5) * 0.3; // Random angle variation
+            const normalizedDx = dx / distance;
+            const normalizedDy = dy / distance;
+            
+            // Apply rotation for randomness
+            const newDx = normalizedDx * Math.cos(randomAngle) - normalizedDy * Math.sin(randomAngle);
+            const newDy = normalizedDx * Math.sin(randomAngle) + normalizedDy * Math.cos(randomAngle);
+            
             return {
               ...cockroach,
               position: {
-                x: cockroach.position.x + (dx / distance) * cockroachSpeed,
-                y: cockroach.position.y + (dy / distance) * cockroachSpeed,
+                x: cockroach.position.x + newDx * cockroachSpeed,
+                y: cockroach.position.y + newDy * cockroachSpeed,
               },
             };
           }
@@ -358,6 +368,14 @@ export default function Game() {
               backgroundMusicRef.current.volume = 0.5;
             }
           }, 1500); // Restore after 1.5 seconds
+        }
+      }
+
+      // Check if powerup has expired (5 seconds)
+      if (powerup && powerup.spawnTime) {
+        const currentTime = Date.now();
+        if (currentTime - powerup.spawnTime > 5000) {
+          setPowerup(null);
         }
       }
 
@@ -444,6 +462,7 @@ export default function Game() {
       setPowerup({
         id: nextIdRef.current++,
         position: getRandomPosition(),
+        spawnTime: Date.now(),
       });
     }, POWERUP_SPAWN_INTERVAL);
 
@@ -572,12 +591,12 @@ export default function Game() {
                     alt="Powerup"
                     width={gameSizes.powerup}
                     height={gameSizes.powerup}
-                    className="w-full h-full object-cover rounded-full border-4 border-yellow-300 shadow-lg animate-pulse"
+                    className="w-full h-full object-cover rounded-full border-4 border-yellow-300 shadow-lg"
                     unoptimized
                     onError={() => setPowerupImageError(true)}
                   />
                 ) : (
-                  <div className="w-full h-full bg-yellow-400 rounded-full border-4 border-yellow-200 flex items-center justify-center text-4xl shadow-lg animate-pulse">
+                  <div className="w-full h-full bg-yellow-400 rounded-full border-4 border-yellow-200 flex items-center justify-center text-4xl shadow-lg">
                     ⭐
                   </div>
                 )}
