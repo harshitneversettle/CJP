@@ -355,9 +355,9 @@ export default function Game() {
     <div className="flex flex-col items-center justify-center min-h-screen p-2 sm:p-4 bg-sky-400">
       <div className="mb-3 sm:mb-6 text-center">
         <h1 className="text-3xl sm:text-5xl font-bold text-white mb-2 drop-shadow-lg">
-          Modi&apos;s Tree Adventure
+          Modi&apos;s assemble
         </h1>
-        <p className="text-white text-sm sm:text-lg drop-shadow">Collect trees, avoid enemies!</p>
+        <p className="text-white text-sm sm:text-lg drop-shadow">Collect trees, avoid enemies(CJP members)!</p>
       </div>
       
       {!gameStarted && (
@@ -571,8 +571,8 @@ export default function Game() {
             <span className="font-semibold hidden sm:inline">Controls:</span>
             <span className="hidden sm:inline"> Arrow Keys or WASD • </span>
             <span className="mx-1 sm:mx-2">🌳 Trees</span> • 
-            <span className="mx-1 sm:mx-2">⭐ Stars</span> • 
-            <span className="mx-1 sm:mx-2">🪳 Enemies</span>
+            <span className="mx-1 sm:mx-2">⭐ Humara pyaara Gyanesh</span> • 
+            <span className="mx-1 sm:mx-2">🪳 (Youths??)</span>
           </div>
         </>
       )}
